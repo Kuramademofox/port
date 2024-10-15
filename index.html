@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Phani - Business Development Executive</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      body {
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        color: #ffffff;
+        line-height: 1.6;
+        overflow-x: hidden;
+        background-color: #1a1a2e;
+      }
+      #canvas-container {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: -1;
+      }
+      header {
+        background: rgba(255, 255, 255, 0.1);
+        backdrop-filter: blur(10px);
+        padding: 1rem 0;
+        position: fixed;
+        width: 100%;
+        z-index: 1000;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+      }
+      nav {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 2rem;
+      }
+      nav ul {
+        display: flex;
+        list-style: none;
+      }
+      nav ul li {
+        margin-left: 2rem;
+      }
+      nav a {
+        text-decoration: none;
+        color: #ffffff;
+        font-weight: bold;
+        transition: color 0.3s ease;
+      }
+      nav a:hover {
+        color: #3a86ff;
+      }
+      main {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 6rem 2rem 2rem;
+      }
+      section {
+        margin-bottom: 4rem;
+      }
+      h1,
+      h2 {
+        margin-bottom: 1rem;
+        color: #ffffff;
+      }
+      .hero {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        min-height: calc(100vh - 6rem);
+        padding: 2rem 0;
+      }
+      .hero-image {
+        width: 20%;
+        border-radius: 50%;
+        box-shadow: 0 10px 30px rgb(0, 0, 0);
+        animation: float 6s ease-in-out infinite;
+        transition: box-shadow 0.3s ease;
+      }
+
+      .hero-image:hover {
+        box-shadow: 0 20px 50px rgb(252, 251, 251);
+      }
+
+      @keyframes float {
+        0% {
+          transform: translateY(0px);
+        }
+        50% {
+          transform: translateY(-20px);
+        }
+        100% {
+          transform: translateY(0px);
+        }
+      }
+      .btn {
+        display: inline-block;
+        background: #3a86ff;
+        color: #fff;
+        padding: 0.8rem 1.5rem;
+        border-radius: 5px;
+        text-decoration: none;
+        transition: all 0.3s ease;
+        box-shadow: 0 2px 10px rgba(58, 134, 255, 0.3);
+      }
+      .btn:hover {
+        background: #2667ff;
+        transform: translateY(-2px);
+        box-shadow: 0 4px 15px rgba(58, 134, 255, 0.4);
+      }
+      .skills {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 2rem;
+      }
+      .skill {
+        background: rgba(255, 255, 255, 0.1);
+        backdrop-filter: blur(10px);
+        padding: 1.5rem;
+        border-radius: 10px;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        transition: all 0.3s ease;
+      }
+      .skill:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+      }
+      .projects {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 2rem;
+      }
+      .project {
+        background: rgba(255, 255, 255, 0.1);
+        backdrop-filter: blur(10px);
+        border-radius: 10px;
+        overflow: hidden;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        transition: all 0.3s ease;
+      }
+      .project:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+      }
+      .project img {
+        width: 100%;
+        height: 200px;
+        object-fit: cover;
+        transition: all 0.3s ease;
+      }
+      .project:hover img {
+        transform: scale(1.05);
+      }
+      .project-content {
+        padding: 1.5rem;
+      }
+      footer {
+        background: rgba(255, 255, 255, 0.1);
+        backdrop-filter: blur(10px);
+        text-align: center;
+        padding: 2rem 0;
+        margin-top: 4rem;
+        box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
+      }
+      @media (max-width: 768px) {
+        .hero {
+          flex-direction: column-reverse;
+          text-align: center;
+        }
+        .hero-content {
+          max-width: 100%;
+          margin-top: 2rem;
+        }
+        .hero-image {
+          width: 200px;
+          height: 200px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div id="canvas-container"></div>
+    <header>
+      <nav>
+        <h1>Phani</h1>
+        <ul>
+          <li><a href="#about">About</a></li>
+          <li><a href="#skills">Skills</a></li>
+          <li><a href="#projects">Projects</a></li>
+          <li><a href="#contact">Contact</a></li>
+        </ul>
+      </nav>
+    </header>
+    <main>
+      <section id="about" class="hero">
+        <div class="hero-content">
+          <h1>Phani</h1>
+          <h2>Business Development Executive</h2>
+          <p>
+            Bridging technology and business to drive growth and innovation in
+            IT services and e-commerce.
+          </p>
+          <a href="#contact" class="btn">Get in Touch</a>
+        </div>
+        <img
+          src="https://media.licdn.com/dms/image/v2/D4E03AQFtSgOXFiCJdQ/profile-displayphoto-shrink_200_200/profile-displayphoto-shrink_200_200/0/1724352891794?e=1734566400&v=beta&t=qTy_nM-kk18TrPNaEaezvm8tKXPpkygizLlBiOqeXh0"
+          alt="Phani"
+          class="hero-image"
+        />
+      </section>
+      <section id="skills">
+        <h2>Skills & Expertise</h2>
+        <div class="skills">
+          <div class="skill">
+            <h3>Business Development</h3>
+            <p>
+              Strategic planning and execution of business growth initiatives.
+            </p>
+          </div>
+          <div class="skill">
+            <h3>IT Services</h3>
+            <p>Deep understanding of IT infrastructure and service delivery.</p>
+          </div>
+          <div class="skill">
+            <h3>E-commerce</h3>
+            <p>Experience in developing and managing e-commerce platforms.</p>
+          </div>
+          <div class="skill">
+            <h3>Project Management</h3>
+            <p>
+              Efficient handling of complex projects from inception to
+              completion.
+            </p>
+          </div>
+        </div>
+      </section>
+      <section id="projects">
+        <h2>Featured Projects</h2>
+        <div class="projects">
+          <div class="project">
+            <img
+              src="https://cdn.prod.website-files.com/65d53f1caa61d7e7656f6b04/662e788f151538445a55f86f_ai-crm-systems_4376600549b779f85d7212eba30a1b53_2000.jpeg"
+              alt="AI-Driven CRM"
+            />
+            <div class="project-content">
+              <h3>AI-Driven CRM</h3>
+              <p>
+                Implemented AI solutions to enhance customer relationship
+                management.
+              </p>
+            </div>
+          </div>
+          <div class="project">
+            <img
+              src="https://www.iwdagency.com/cdn/shop/articles/eCommerce_Platform_Pic_2000x.jpg?v=1698957713"
+              alt="E-commerce Platform"
+            />
+            <div class="project-content">
+              <h3>E-commerce Platform</h3>
+              <p>
+                Developed a scalable e-commerce solution for a major retailer.
+              </p>
+            </div>
+          </div>
+          <div class="project">
+            <img
+              src="https://fuselabcreative.com/wp-content/uploads/2021/08/dashboard-design-main-1.jpg"
+              alt="Business Intelligence Dashboard"
+            />
+            <div class="project-content">
+              <h3>Business Intelligence Dashboard</h3>
+              <p>
+                Created a comprehensive BI tool for data-driven decision making.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+      <section id="contact">
+        <h2>Get in Touch</h2>
+        <p>
+          Interested in collaborating or have a question? Feel free to reach
+          out!
+        </p>
+        <a href="mailto:phanikrishnak1@gmail.com" class="btn">Email Me</a>
+      </section>
+    </main>
+    <footer>
+      <p>&copy; 2023 Phani. All rights reserved.</p>
+    </footer>
+    <script>
+      // Three.js 3D background animation
+      const scene = new THREE.Scene();
+      const camera = new THREE.PerspectiveCamera(
+        75,
+        window.innerWidth / window.innerHeight,
+        0.1,
+        1000
+      );
+      const renderer = new THREE.WebGLRenderer({
+        alpha: true,
+        antialias: true,
+      });
+      renderer.setSize(window.innerWidth, window.innerHeight);
+      document
+        .getElementById("canvas-container")
+        .appendChild(renderer.domElement);
+
+      const geometry = new THREE.IcosahedronGeometry(10, 1);
+      const material = new THREE.MeshPhongMaterial({
+        color: 0x3a86ff,
+        wireframe: true,
+        wireframeLinewidth: 2,
+        emissive: 0x3a86ff,
+        emissiveIntensity: 0.4,
+        side: THREE.DoubleSide,
+      });
+      const icosahedron = new THREE.Mesh(geometry, material);
+      scene.add(icosahedron);
+
+      const light = new THREE.PointLight(0xffffff, 1, 100);
+      light.position.set(0, 0, 10);
+      scene.add(light);
+
+      const ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
+      scene.add(ambientLight);
+
+      camera.position.z = 30;
+
+      function animate() {
+        requestAnimationFrame(animate);
+        icosahedron.rotation.x += 0.005;
+        icosahedron.rotation.y += 0.005;
+        renderer.render(scene, camera);
+      }
+      animate();
+
+      // Resize handler
+      window.addEventListener("resize", () => {
+        const width = window.innerWidth;
+        const height = window.innerHeight;
+        renderer.setSize(width, height);
+        camera.aspect = width / height;
+        camera.updateProjectionMatrix();
+      });
+
+      // Smooth scrolling for navigation links
+      document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
+        anchor.addEventListener("click", function (e) {
+          e.preventDefault();
+          document.querySelector(this.getAttribute("href")).scrollIntoView({
+            behavior: "smooth",
+          });
+        });
+      });
+
+      // Parallax effect for the 3D background
+      document.addEventListener("mousemove", (e) => {
+        const mouseX = e.clientX / window.innerWidth - 0.5;
+        const mouseY = e.clientY / window.innerHeight - 0.5;
+        icosahedron.rotation.y = mouseX * 0.5;
+        icosahedron.rotation.x = -mouseY * 0.5;
+      });
+    </script>
+  </body>
+</html>
